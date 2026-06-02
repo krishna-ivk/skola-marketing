@@ -1,26 +1,38 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-skola-50: #f0f7ff;
+  --color-skola-100: #e0effe;
+  --color-skola-200: #b9dffd;
+  --color-skola-300: #7cc5fc;
+  --color-skola-400: #36a8f9;
+  --color-skola-500: #0c8eea;
+  --color-skola-600: #0070c7;
+  --color-skola-700: #0159a2;
+  --color-skola-800: #064c86;
+  --color-skola-900: #0b406f;
+  --color-skola-950: #07284a;
+  --color-accent-50: #fdf4ff;
+  --color-accent-100: #fae8ff;
+  --color-accent-200: #f5d0fe;
+  --color-accent-300: #f0abfc;
+  --color-accent-400: #e879f9;
+  --color-accent-500: #d946ef;
+  --color-accent-600: #c026d3;
+  --color-accent-700: #a21caf;
+  --color-accent-800: #86198f;
+  --color-accent-900: #701a75;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: #171717;
+  background: #ffffff;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }
