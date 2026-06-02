@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Skola — Competency Learning Network for Schools
 
-## Getting Started
+**Skola** helps Indian schools move beyond marks. Track every child's skills, misconceptions, evidence, projects, and next learning actions — across students, teachers, and parents.
 
-First, run the development server:
+## What Skola does
+
+- **Skill mapping** — map every question and activity to micro-skills and competencies
+- **Adaptive practice** — personalised drill with automatic reinforcement for wrong answers
+- **Teacher heatmaps** — see class-wide competency gaps at a glance
+- **Parent weekly reports** — practice sessions, accuracy, skills improved, suggested focus
+- **Evidence portfolios** — students submit project evidence, teachers assess against rubrics
+- **STEM Studio** — hands-on activities mapped to competencies
+
+## Tech stack
+
+- **Framework:** Next.js 15 (App Router)
+- **Styling:** Tailwind CSS 4
+- **Testing:** Playwright (E2E), Webwright (exploratory QA)
+- **Deployment:** Cloudflare Pages + Workers
+- **Mobile:** Flutter (future)
+
+## Quickstart
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # production build
+npm run start      # production server
+npm run test:e2e   # Playwright E2E tests
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+  app/
+    page.tsx                 # Homepage
+    layout.tsx               # Root layout (nav + footer)
+    globals.css              # Global styles + Skola theme
+    for-schools/page.tsx     # For Schools page
+    product/page.tsx         # Product overview
+    book-demo/page.tsx       # Demo booking
+    competency-maps/         # Competency map explorer
+    contact/page.tsx         # Contact form
+    privacy/page.tsx         # Privacy policy
+tests/
+  smoke/marketing.spec.ts    # Playwright smoke tests
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## E2E Tests
 
-## Learn More
+```bash
+npm run test:e2e          # all tests
+npm run test:e2e:smoke    # critical path smoke
+```
 
-To learn more about Next.js, take a look at the following resources:
+Uses system-installed Chromium at `/usr/bin/chromium-browser`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The site is deployed to **Cloudflare Pages**:
 
-## Deploy on Vercel
+```bash
+npm run build      # produces out/
+npx wrangler deploy # deploys to Cloudflare
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built by Skyforce. © 2026 Skola.
