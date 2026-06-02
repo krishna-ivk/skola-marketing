@@ -1,5 +1,3 @@
-import Link from "next/link"
-
 export default function BookDemoPage() {
   return (
     <div>
@@ -10,7 +8,7 @@ export default function BookDemoPage() {
               Book a School Demo
             </h1>
             <p className="mt-4 text-lg text-gray-600">
-              See Skola in action. A 30-minute walkthrough tailored to your school's needs.
+              See Skola in action. A 30-minute walkthrough tailored to your school&apos;s needs.
             </p>
           </div>
 

@@ -1,5 +1,3 @@
-import Link from "next/link"
-
 export default function PrivacyPage() {
   return (
     <div>
@@ -14,7 +12,7 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-xl font-semibold text-gray-900">1. Introduction</h2>
               <p className="mt-2">
-                Skola ("we," "our," or "us") is committed to protecting the privacy of students, parents, teachers, and schools using our platform. This Privacy Policy explains how we collect, use, disclose, and safeguard your information.
+                Skola (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting the privacy of students, parents, teachers, and schools using our platform. This Privacy Policy explains how we collect, use, disclose, and safeguard your information.
               </p>
             </section>
 
