@@ -1,0 +1,56 @@
+version: 2.1
+
+jobs:
+  quality:
+    docker:
+      - image: cimg/node:20.18
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - npm-v1-{{ checksum "package-lock.json" }}
+            - npm-v1-
+
+      - run:
+          name: Install dependencies
+          command: npm ci
+
+      - save_cache:
+          key: npm-v1-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
+
+      - run:
+          name: Typecheck
+          command: |
+            if npm run | grep -q "typecheck"; then
+              npm run typecheck
+            elif [ -f tsconfig.json ]; then
+              npx tsc --noEmit
+            else
+              echo "No typecheck script or tsconfig found; skipping."
+            fi
+
+      - run:
+          name: Tests
+          command: |
+            if npm run | grep -q "test"; then
+              npm test
+            else
+              echo "No test script found; skipping."
+            fi
+
+      - run:
+          name: Build
+          command: |
+            if npm run | grep -q "build"; then
+              npm run build
+            else
+              echo "No build script found; skipping."
+            fi
+
+workflows:
+  ci:
+    jobs:
+      - quality
