@@ -1,4 +1,5 @@
 import Link from "next/link"
+import ContactForm from "../../components/ContactForm"
 
 export default function ContactPage() {
   return (
@@ -38,23 +39,7 @@ export default function ContactPage() {
               </p>
             </div>
 
-            <form className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-900">Name</label>
-                <input id="name" type="text" required className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-skola-500 focus:outline-none focus:ring-1 focus:ring-skola-500" />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-900">Email</label>
-                <input id="email" type="email" required className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-skola-500 focus:outline-none focus:ring-1 focus:ring-skola-500" />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-900">Message</label>
-                <textarea id="message" rows={4} required className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-skola-500 focus:outline-none focus:ring-1 focus:ring-skola-500" />
-              </div>
-              <button type="submit" className="w-full rounded-md bg-skola-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-skola-700 focus:outline-none focus:ring-2 focus:ring-skola-500 focus:ring-offset-2">
-                Send Message
-              </button>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </section>
