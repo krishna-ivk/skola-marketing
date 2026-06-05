@@ -32,10 +32,15 @@ export default function ContactForm() {
     setStatus('submitting');
     setServerError('');
 
+    const idKey = `ui_${Date.now()}_contact_${name.trim().slice(0, 20).replace(/\s+/g, '_')}`;
+
     try {
       const res = await fetch(CONTACT_FORM_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Idempotency-Key': idKey,
+        },
         body: JSON.stringify({
           school: name.trim(),
           city: 'Unknown',
@@ -48,11 +53,12 @@ export default function ContactForm() {
         }),
       });
 
+      const data = await res.json().catch(() => ({}));
+
       if (res.ok) {
         setStatus('success');
       } else {
-        const data = await res.json().catch(() => ({}));
-        setServerError(data.message || 'Could not send. Please try again.');
+        setServerError(data.message || data.errorCode || 'Could not send. Please try again.');
         setStatus('error');
       }
     } catch {

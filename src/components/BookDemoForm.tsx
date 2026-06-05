@@ -45,6 +45,10 @@ export default function BookDemoForm() {
     return errors;
   }
 
+  function idempotencyKey(): string {
+    return `ui_${Date.now()}_lead_${form.school.trim().slice(0, 20).replace(/\s+/g, '_')}`;
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (status === 'submitting') return;
@@ -59,7 +63,10 @@ export default function BookDemoForm() {
     try {
       const res = await fetch(LEAD_FORM_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Idempotency-Key': idempotencyKey(),
+        },
         body: JSON.stringify({
           school: form.school.trim(),
           city: form.city.trim(),
@@ -72,11 +79,12 @@ export default function BookDemoForm() {
         }),
       });
 
+      const data = await res.json().catch(() => ({}));
+
       if (res.ok) {
         setStatus('success');
       } else {
-        const data = await res.json().catch(() => ({}));
-        setServerError(data.message || data.error || 'Could not submit. Please try again.');
+        setServerError(data.message || data.error || data.errorCode || 'Could not submit. Please try again.');
         setStatus('error');
       }
     } catch {
