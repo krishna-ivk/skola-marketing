@@ -65,6 +65,10 @@ npm run build      # produces out/
 npx wrangler deploy # deploys to Cloudflare
 ```
 
+Production builds require `NEXT_PUBLIC_LEAD_FORM_URL`. The lead Worker requires
+a real D1 binding and an explicit `ALLOWED_ORIGINS` allowlist; it returns 503
+rather than acknowledging leads when persistence is unavailable.
+
 ---
 
 Built by Skyforce. © 2026 Skola.

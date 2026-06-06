@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-
-const LEAD_FORM_URL = 'https://skola-lead-form.skola.workers.dev';
+import { leadFormUrl } from '@/lib/runtime-config';
 
 interface FormData {
   school: string;
@@ -61,7 +60,7 @@ export default function BookDemoForm() {
     setServerError('');
 
     try {
-      const res = await fetch(LEAD_FORM_URL, {
+      const res = await fetch(leadFormUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
