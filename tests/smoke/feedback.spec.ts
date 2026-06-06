@@ -52,7 +52,7 @@ test.describe('Book Demo — form feedback states', () => {
     await page.fill('#phone', '9876543210')
     await page.fill('#email', 'principal@test.edu')
     await page.locator('button[type="submit"]').click()
-    await expect(page.locator('text=Request Received')).toBeVisible({ timeout: 10000 })
+    await expect(page.getByRole('heading', { name: 'Request Received!' })).toBeVisible({ timeout: 10000 })
   })
 
   test('network failure shows retry message', async ({ page }) => {

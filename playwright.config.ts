@@ -6,14 +6,15 @@ const launchOptions = chromiumExecutable ? { executablePath: chromiumExecutable 
 export default defineConfig({
   testDir: './tests',
   webServer: {
-    command: 'node scripts/serve-static.js',
+    command: 'npm run build && node scripts/serve-static.js',
     port: 3000,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
+    timeout: 180000,
   },
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 2 : undefined,
+  workers: 2,
   reporter: [['list'], ['json', { outputFile: 'test-results/results.json' }]],
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:3000',
