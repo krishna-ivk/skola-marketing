@@ -18,11 +18,11 @@ export default function PrincipalDemoPage() {
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <p className="text-sm font-semibold text-skola-700">Pilot Readiness Score</p>
             <div className="mt-4 flex items-center justify-between">
-              <span className="text-4xl font-bold text-ink-950">76%</span>
-              <div className="flex gap-4 text-center">
-                <div><p className="text-xl font-bold">210</p><p className="text-xs text-slate-500">Active learners</p></div>
-                <div><p className="text-xl font-bold">12</p><p className="text-xs text-slate-500">Teachers</p></div>
-                <div><p className="text-xl font-bold">8</p><p className="text-xs text-slate-500">Classes</p></div>
+              <span className="text-3xl sm:text-4xl font-bold text-ink-950">76%</span>
+              <div className="flex flex-wrap gap-2 sm:gap-4 text-center">
+                <div><p className="text-base sm:text-xl font-bold">210</p><p className="text-xs text-slate-500">Learners</p></div>
+                <div><p className="text-base sm:text-xl font-bold">12</p><p className="text-xs text-slate-500">Teachers</p></div>
+                <div><p className="text-base sm:text-xl font-bold">8</p><p className="text-xs text-slate-500">Classes</p></div>
               </div>
             </div>
             <div className="mt-4 h-2.5 rounded-full bg-slate-100"><div className="h-full w-[76%] rounded-full bg-skola-500" /></div>
