@@ -2,6 +2,7 @@
 const http = require('http')
 const fs = require('fs')
 const path = require('path')
+const { URL } = require('url')
 
 const MIME = {
   '.html': 'text/html',
@@ -14,15 +15,25 @@ const MIME = {
   '.woff2': 'font/woff2',
 }
 
+const root = path.resolve(__dirname, '..', 'out')
+
 http.createServer((req, res) => {
-  let p = req.url === '/' ? '/index.html' : req.url
-  if (!path.extname(p)) p = path.join(p, 'index.html')
-  const f = path.join('out', p)
+  const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname)
+  let requestedPath = pathname === '/' ? 'index.html' : pathname.replace(/^[/\\]+/, '')
+  if (!path.extname(requestedPath)) requestedPath = path.join(requestedPath, 'index.html')
+  const filePath = path.resolve(root, requestedPath)
+
+  if (!filePath.startsWith(`${root}${path.sep}`) && filePath !== root) {
+    res.writeHead(403)
+    res.end('Forbidden')
+    return
+  }
+
   try {
-    const c = fs.readFileSync(f)
-    const ext = path.extname(f)
+    const c = fs.readFileSync(filePath)
+    const ext = path.extname(filePath)
     res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' })
-    res.end(c)
+    res.end(req.method === 'HEAD' ? undefined : c)
   } catch {
     res.writeHead(404)
     res.end('Not found')
