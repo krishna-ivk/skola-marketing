@@ -27,7 +27,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <div className="hidden items-center gap-7 md:flex">
               {navItems.map((item) => <Link key={item.href} href={item.href} className="text-sm font-medium text-slate-600 transition hover:text-skola-700">{item.label}</Link>)}
             </div>
-            <Link href="/book-demo/" className="rounded-xl bg-skola-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-skola-700">Book a demo</Link>
+            <div className="flex items-center gap-2">
+              <details className="relative md:hidden">
+                <summary className="cursor-pointer list-none rounded-xl border px-3 py-2 text-sm font-semibold text-slate-700">Menu</summary>
+                <div className="absolute right-0 top-12 z-50 w-56 rounded-2xl border bg-white p-2 shadow-[var(--shadow-card)]">
+                  {navItems.map((item) => <Link key={item.href} href={item.href} className="block rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-skola-50">{item.label}</Link>)}
+                </div>
+              </details>
+              <Link href="/book-demo/" className="hidden rounded-xl bg-skola-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-skola-700 sm:inline-flex">Book a Demo</Link>
+            </div>
           </nav>
         </header>
         <main className="flex-1">{children}</main>

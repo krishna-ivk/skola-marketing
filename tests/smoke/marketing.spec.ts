@@ -56,4 +56,13 @@ test.describe('Marketing site smoke tests', () => {
     await expect(form.locator('#phone')).toBeVisible()
     await expect(form.locator('#email')).toBeVisible()
   })
+
+  test('mobile navigation exposes key public routes', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/')
+    await page.getByText('Menu', { exact: true }).click()
+    const menu = page.locator('details[open] div')
+    await expect(menu.getByRole('link', { name: 'Product', exact: true })).toBeVisible()
+    await expect(menu.getByRole('link', { name: 'Contact', exact: true })).toBeVisible()
+  })
 })
