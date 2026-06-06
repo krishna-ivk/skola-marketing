@@ -1,38 +1,34 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-skola-50: #f0f7ff;
-  --color-skola-100: #e0effe;
-  --color-skola-200: #b9dffd;
-  --color-skola-300: #7cc5fc;
-  --color-skola-400: #36a8f9;
-  --color-skola-500: #0c8eea;
-  --color-skola-600: #0070c7;
-  --color-skola-700: #0159a2;
-  --color-skola-800: #064c86;
-  --color-skola-900: #0b406f;
-  --color-skola-950: #07284a;
-  --color-accent-50: #fdf4ff;
-  --color-accent-100: #fae8ff;
-  --color-accent-200: #f5d0fe;
-  --color-accent-300: #f0abfc;
-  --color-accent-400: #e879f9;
-  --color-accent-500: #d946ef;
-  --color-accent-600: #c026d3;
-  --color-accent-700: #a21caf;
-  --color-accent-800: #86198f;
-  --color-accent-900: #701a75;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --color-skola-50: #effaf6;
+  --color-skola-100: #d7f3e7;
+  --color-skola-200: #afe6d2;
+  --color-skola-300: #79d2b5;
+  --color-skola-400: #3db591;
+  --color-skola-500: #168f6e;
+  --color-skola-600: #006948;
+  --color-skola-700: #00573e;
+  --color-skola-800: #064635;
+  --color-skola-900: #073a2e;
+  --color-ink-950: #141b2b;
+  --color-canvas: #f9f9ff;
+  --color-accent: #4b41e1;
+  --color-warm: #fea619;
+  --font-sans: "Inter", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
-body {
-  color: #171717;
-  background: #ffffff;
+:root {
+  --shadow-card: 0 1px 2px rgb(20 27 43 / 0.04), 0 16px 40px rgb(20 27 43 / 0.07);
+  --shadow-hero: 0 30px 80px rgb(20 27 43 / 0.16);
 }
+
+html { background: #fff; scroll-behavior: smooth; }
+body { color: #141b2b; background: #fff; font-family: var(--font-sans); }
+::selection { color: #073a2e; background: #afe6d2; }
+:focus-visible { outline: 3px solid rgb(75 65 225 / .25); outline-offset: 3px; }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  .text-balance { text-wrap: balance; }
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.18em] text-skola-700; }
 }
