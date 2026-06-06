@@ -62,7 +62,7 @@ export default function StudentDemoPage() {
               ))}
               <p className="text-xs text-slate-500">Reinforcement question every 4th attempt</p>
             </div>
-            <Link href="#" className="mt-4 inline-flex rounded-xl bg-skola-600 px-5 py-2.5 text-sm font-semibold text-white">Start new drill</Link>
+            <button className="mt-4 inline-flex rounded-xl bg-skola-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-skola-700">Start new drill (in-app)</button>
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -80,6 +80,11 @@ export default function StudentDemoPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-12 text-center">
+        <a href="http://localhost:3000/student" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-skola-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-skola-700">Open the real student dashboard →</a>
+        <p className="mt-2 text-xs text-slate-500">Opens skola-web at localhost:3000/student</p>
       </div>
 
       <div className="mt-12 rounded-2xl bg-ink-950 p-8 text-white">
