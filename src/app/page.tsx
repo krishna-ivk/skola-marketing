@@ -40,6 +40,7 @@ export default function Home() {
           <h1 className="mx-auto mt-5 max-w-5xl text-balance text-5xl font-bold tracking-[-0.04em] text-ink-950 sm:text-6xl lg:text-7xl">Make every learner&apos;s progress visible and actionable.</h1>
           <p className="mx-auto mt-6 max-w-2xl text-balance text-lg leading-8 text-slate-600">Skola connects curriculum, practice, project evidence, teacher judgement, and family support so schools can respond to learning needs earlier.</p>
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"><Link href="/book-demo/" className="rounded-xl bg-skola-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-skola-700">Book a school walkthrough</Link><Link href="/product/" className="rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-skola-300 hover:text-skola-700">Explore the product</Link></div>
+          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row"><Link href="/demo/" className="inline-flex items-center gap-2 text-sm font-semibold text-skola-700 transition hover:text-skola-900">Try the live demo →</Link><span className="hidden text-slate-300 sm:inline">·</span><Link href="/pilot/" className="inline-flex items-center gap-2 text-sm font-semibold text-skola-700 transition hover:text-skola-900">School pilot programme →</Link></div>
           <div className="mt-16"><ProductPreview /></div>
         </div>
       </section>
