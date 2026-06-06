@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { SKOLA_APP_URL } from '@/lib/env'
 
 export default function ParentDemoPage() {
   return (
@@ -96,8 +97,8 @@ export default function ParentDemoPage() {
       </div>
 
       <div className="mt-12 text-center">
-        <a href="http://localhost:3000/parent" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-skola-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-skola-700">Open the real parent dashboard →</a>
-        <p className="mt-2 text-xs text-slate-500">Opens skola-web at localhost:3000/parent</p>
+        <a href={`${SKOLA_APP_URL}/parent`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-skola-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-skola-700">Open the real parent dashboard →</a>
+        <p className="mt-2 text-xs text-slate-500">Opens skola-web at {SKOLA_APP_URL}/parent</p>
       </div>
 
       <div className="mt-12 rounded-2xl bg-ink-950 p-8 text-white">
