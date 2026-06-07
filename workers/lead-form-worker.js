@@ -27,22 +27,45 @@ function actionError(message, errorCode, requestId, fieldErrors, retryable) {
   };
 }
 
-export default {
+function corsHeaders(request, env) {
+  const origin = request.headers.get('Origin')
+  const allowedOrigins = (env.ALLOWED_ORIGINS || '')
+    .split(',')
+    .map(value => value.trim())
+    .filter(Boolean)
+
+  return {
+    ...(origin && allowedOrigins.includes(origin)
+      ? { 'Access-Control-Allow-Origin': origin }
+      : {}),
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Idempotency-Key',
+    'Access-Control-Expose-Headers': 'Idempotency-Key',
+    'Vary': 'Origin',
+  }
+}
+
+const worker = {
   async fetch(request, env) {
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Idempotency-Key',
-      'Access-Control-Expose-Headers': 'Idempotency-Key',
+    const responseCorsHeaders = corsHeaders(request, env)
+    const origin = request.headers.get('Origin')
+    if (origin && !responseCorsHeaders['Access-Control-Allow-Origin']) {
+      return new Response(JSON.stringify(actionError(
+        'Origin not allowed', 'ORIGIN_NOT_ALLOWED', generateId(), null, false
+      )), {
+        status: 403,
+        headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' },
+      })
     }
 
     if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders })
+      return new Response(null, { headers: responseCorsHeaders })
     }
 
     if (request.method === 'GET') {
-      return new Response(JSON.stringify({ status: 'ok' }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      return new Response(JSON.stringify({ status: env.DB ? 'ok' : 'degraded', persistence: Boolean(env.DB) }), {
+        status: env.DB ? 200 : 503,
+        headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' },
       })
     }
 
@@ -51,7 +74,7 @@ export default {
         'Method not allowed', 'METHOD_NOT_ALLOWED', generateId(), null, false
       )), {
         status: 405,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' },
       })
     }
 
@@ -59,8 +82,21 @@ export default {
     const idempotencyKey = request.headers.get('Idempotency-Key')
 
     try {
+      if (!env.DB) {
+        return new Response(JSON.stringify(actionError(
+          'Lead persistence is unavailable. Please try again later.',
+          'PERSISTENCE_UNAVAILABLE',
+          requestId,
+          null,
+          true
+        )), {
+          status: 503,
+          headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' },
+        })
+      }
+
       // Idempotency check
-      if (idempotencyKey && env.DB) {
+      if (idempotencyKey) {
         const existing = await env.DB.prepare(
           `SELECT response_body FROM lead_idempotency_cache
            WHERE idempotency_key = ? AND expires_at > datetime('now')`
@@ -69,7 +105,7 @@ export default {
           const cached = JSON.parse(existing.response_body)
           return new Response(JSON.stringify(cached), {
             status: cached.statusCode || 201,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' },
           })
         }
       }
@@ -92,40 +128,38 @@ export default {
           false
         )), {
           status: 400,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' },
         })
       }
 
       const actionId = `lead_${generateId()}`
-      const recordedAt = new Date().toISOString()
+      await env.DB.prepare(
+        `INSERT INTO leads (school, city, role, students, board, phone, email, goal, created_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))`
+      ).bind(school, city, role, students, board, phone, email, goal || null).run()
 
-      if (env.DB) {
+      // Cache idempotency response
+      if (idempotencyKey) {
+        const responseBody = JSON.stringify(actionAck(true, 'Lead recorded successfully', requestId, actionId))
         await env.DB.prepare(
-          `INSERT INTO leads (school, city, role, students, board, phone, email, goal, created_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))`
-        ).bind(school, city, role, students, board, phone, email, goal || null).run()
-
-        // Cache idempotency response
-        if (idempotencyKey) {
-          const responseBody = JSON.stringify(actionAck(true, 'Lead recorded successfully', requestId, actionId))
-          await env.DB.prepare(
-            `INSERT OR REPLACE INTO lead_idempotency_cache (idempotency_key, response_body, status_code, expires_at)
-             VALUES (?, ?, 201, datetime('now', '+1 hour'))`
-          ).bind(idempotencyKey, responseBody).run()
-        }
+          `INSERT OR REPLACE INTO lead_idempotency_cache (idempotency_key, response_body, status_code, expires_at)
+           VALUES (?, ?, 201, datetime('now', '+1 hour'))`
+        ).bind(idempotencyKey, responseBody).run()
       }
 
       return new Response(JSON.stringify(actionAck(true, 'Lead recorded successfully', requestId, actionId)), {
         status: 201,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' },
       })
-    } catch (err) {
+    } catch {
       return new Response(JSON.stringify(actionError(
         'Could not process form. Please try again.', 'INTERNAL_ERROR', requestId, null, true
       )), {
         status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' },
       })
     }
   },
 }
+
+export default worker

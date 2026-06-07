@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-
-const CONTACT_FORM_URL = 'https://skola-lead-form.skola.workers.dev';
+import { leadFormUrl } from '@/lib/runtime-config';
 
 export default function ContactForm() {
   const [name, setName] = useState('');
@@ -35,7 +34,7 @@ export default function ContactForm() {
     const idKey = `ui_${Date.now()}_contact_${name.trim().slice(0, 20).replace(/\s+/g, '_')}`;
 
     try {
-      const res = await fetch(CONTACT_FORM_URL, {
+      const res = await fetch(leadFormUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
