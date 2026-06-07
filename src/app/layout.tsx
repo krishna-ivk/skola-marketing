@@ -3,8 +3,8 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "Skola - Make every learner's progress visible", template: "%s | Skola" },
-  description: "Competency-based learning infrastructure for Indian schools, connecting evidence, interventions, teachers, learners, and families.",
+  title: { default: "Skola OS for CBSE Schools — Academics, Exams, Compliance, Skill Labs", template: "%s | Skola" },
+  description: "Skola translates CBSE portals, compliance vocabulary, academic workflows, skill education, exams, governance, and stakeholder communication into day-to-day school execution.",
 };
 
 const navItems = [
@@ -45,7 +45,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <div><p className="text-sm font-semibold text-white">Explore</p><div className="mt-4 space-y-3 text-sm"><Link className="block hover:text-white" href="/product/">Product</Link><Link className="block hover:text-white" href="/for-schools/">For schools</Link><Link className="block hover:text-white" href="/competency-maps/">Competency maps</Link></div></div>
             <div><p className="text-sm font-semibold text-white">Trust</p><div className="mt-4 space-y-3 text-sm"><Link className="block hover:text-white" href="/privacy/">Privacy</Link><Link className="block hover:text-white" href="/contact/">Contact</Link><Link className="block hover:text-white" href="/book-demo/">Book a demo</Link></div></div>
           </div>
-          <div className="border-t border-white/10 px-6 py-5 text-center text-xs text-slate-500">© 2026 Skola. A Skyforce product.</div>
+          <div className="border-t border-white/10 px-6 py-5 text-center text-xs text-slate-500">
+            <p>© 2026 Skola. A Skyforce product.</p>
+            <p className="mt-2 text-slate-600">Skola uses CBSE-aligned terminology to help schools organize their internal workflows. Skola is not an official CBSE portal and does not replace official CBSE systems.</p>
+          </div>
         </footer>
       </body>
     </html>
